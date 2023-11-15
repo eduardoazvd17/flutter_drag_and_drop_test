@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterdraganddroptest/widgets/draggable_object_widget.dart';
+
+import 'models/object_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +20,31 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    List<DraggableObjectWidget> objects = [
+      DraggableObjectWidget(
+        model: ObjectModel(
+          id: 'circle',
+          color: Colors.red[100]!,
+          shape: BoxShape.circle,
+        ),
+        offset: object1Postition,
+        onDragEnd: (details) => setState(() {
+          object1Postition = details.offset;
+        }),
+      ),
+      DraggableObjectWidget(
+        model: ObjectModel(
+          id: 'rectangle',
+          color: Colors.blue[100]!,
+          shape: BoxShape.rectangle,
+        ),
+        offset: object2Postition,
+        onDragEnd: (details) => setState(() {
+          object2Postition = details.offset;
+        }),
+      ),
+    ];
+
     return MaterialApp(
       title: 'Flutter Drag & Drop Test',
       theme: ThemeData(
@@ -25,55 +53,8 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         body: Stack(
-          children: [
-            _draggableObject(
-              color: Colors.blue[100],
-              offset: object1Postition,
-              onDragEnd: (details) => setState(() {
-                object1Postition = details.offset;
-              }),
-            ),
-            _draggableObject(
-              color: Colors.green[100],
-              offset: object2Postition,
-              onDragEnd: (details) => setState(() {
-                object2Postition = details.offset;
-              }),
-            ),
-          ],
+          children: objects,
         ),
-      ),
-    );
-  }
-
-  _draggableObject({
-    required Color? color,
-    required Offset offset,
-    required Function(DraggableDetails) onDragEnd,
-  }) {
-    const itemSize = Size(140, 75);
-    final container = Container(
-      height: itemSize.height,
-      width: itemSize.width,
-      decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: BorderRadius.circular(12),
-        color: color,
-      ),
-    );
-
-    return Positioned(
-      top: offset.dy,
-      left: offset.dx,
-      child: Draggable<Container>(
-        onDragEnd: onDragEnd,
-        feedback: AnimatedOpacity(
-          opacity: 0.5,
-          duration: const Duration(milliseconds: 300),
-          child: container,
-        ),
-        childWhenDragging: const SizedBox(),
-        child: container,
       ),
     );
   }
