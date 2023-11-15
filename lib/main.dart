@@ -20,31 +20,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    List<DraggableObjectWidget> objects = [
-      DraggableObjectWidget(
-        model: ObjectModel(
-          id: 'circle',
-          color: Colors.red[100]!,
-          shape: BoxShape.circle,
-        ),
-        offset: object1Postition,
-        onDragEnd: (details) => setState(() {
-          object1Postition = details.offset;
-        }),
-      ),
-      DraggableObjectWidget(
-        model: ObjectModel(
-          id: 'rectangle',
-          color: Colors.blue[100]!,
-          shape: BoxShape.rectangle,
-        ),
-        offset: object2Postition,
-        onDragEnd: (details) => setState(() {
-          object2Postition = details.offset;
-        }),
-      ),
-    ];
-
     return MaterialApp(
       title: 'Flutter Drag & Drop Test',
       theme: ThemeData(
@@ -53,7 +28,30 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         body: Stack(
-          children: objects,
+          children: [
+            DraggableObjectWidget(
+              model: ObjectModel(
+                id: 'circle',
+                color: Colors.red[100]!,
+                shape: BoxShape.circle,
+              ),
+              offset: object1Postition,
+              onDragEnd: (details) => setState(() {
+                object1Postition = details.offset;
+              }),
+            ),
+            DraggableObjectWidget(
+              model: ObjectModel(
+                id: 'rectangle',
+                color: Colors.blue[100]!,
+                shape: BoxShape.rectangle,
+              ),
+              offset: object2Postition,
+              onDragEnd: (details) => setState(() {
+                object2Postition = details.offset;
+              }),
+            ),
+          ],
         ),
       ),
     );
